@@ -38,10 +38,6 @@ protocol WaypointPresenterObservable: ObservableObject {
     var isValid: Bool { get set }
 }
 
-protocol WaypointPresenterActions {
-    func handleQuery(_ publisher: AnyPublisher<CLPlacemark, Error>)
-}
-
 class WaypointPresenter: WaypointPresenterObservable {
   @Published var query: String = ""
   @Published var info: String = "No results"
@@ -68,36 +64,32 @@ class WaypointPresenter: WaypointPresenterObservable {
     self.interactor = interactor
     location = interactor.waypoint.location
     query = interactor.waypoint.name
+    
+    interactor.suggestion
+      .map { self.formatInfo($0) }
+      .catch { _ in Empty<String, Never>() }
+      .assign(to: \.info, on: self)
+      .store(in: &cancellables)
+
+    interactor.suggestion
+      .map { $0.name }
+      .replaceNil(with: "unknown")
+      .catch { _ in Empty<String, Never>() }
+      .assign(to: \.name, on: self)
+      .store(in: &cancellables)
+
+    interactor.suggestion
+      .map { $0.location }
+      .replaceNil(with: CLLocation(latitude: 0, longitude: 0))
+      .catch { _ in Empty<CLLocation, Never>() }
+      .map { $0.coordinate }
+      .assign(to: \.location, on: self)
+      .store(in: &cancellables)
+
+    interactor.suggestion
+      .map { _ in true }
+      .catch {_ in Just<Bool>(false) }
+      .assign(to: \.isValid, on: self)
+      .store(in: &cancellables)
   }
-}
-
-extension WaypointPresenter: WaypointPresenterActions {
-    func handleQuery(_ suggestion: AnyPublisher<CLPlacemark, Error>) {
-      suggestion
-        .map { self.formatInfo($0) }
-        .catch { _ in Empty<String, Never>() }
-        .assign(to: \.info, on: self)
-        .store(in: &cancellables)
-
-      suggestion
-        .map { $0.name }
-        .replaceNil(with: "unknown")
-        .catch { _ in Empty<String, Never>() }
-        .assign(to: \.name, on: self)
-        .store(in: &cancellables)
-
-      suggestion
-        .map { $0.location }
-        .replaceNil(with: CLLocation(latitude: 0, longitude: 0))
-        .catch { _ in Empty<CLLocation, Never>() }
-        .map { $0.coordinate }
-        .assign(to: \.location, on: self)
-        .store(in: &cancellables)
-
-      suggestion
-        .map { _ in true }
-        .catch {_ in Just<Bool>(false) }
-        .assign(to: \.isValid, on: self)
-        .store(in: &cancellables)
-    }
 }

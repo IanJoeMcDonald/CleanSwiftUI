@@ -33,6 +33,7 @@ import CoreLocation
 protocol WaypointInteractorObservalbe {
     var waypoint: Waypoint { get }
     var mapDataProvider: MapDataProvider { get }
+    var suggestion: AnyPublisher<CLPlacemark, Error> { get }
 }
 
 protocol WaypointInteractorActions {
@@ -43,13 +44,14 @@ protocol WaypointInteractorActions {
 class WaypointInteractor: WaypointInteractorObservalbe {
     var waypoint: Waypoint
     var mapDataProvider: MapDataProvider
-    var presenter: WaypointPresenterActions?
+    var suggestion: AnyPublisher<CLPlacemark, Error>
     
     private var debounceTimer: Timer?
     
     init(waypoint: Waypoint, mapDataProvider: MapDataProvider) {
         self.waypoint = waypoint
         self.mapDataProvider = mapDataProvider
+        self.suggestion = mapDataProvider.getLocation(for: "unknown")
     }
 }
 
@@ -57,7 +59,7 @@ extension WaypointInteractor: WaypointInteractorActions {
     func getLocation(for address: String) {
         debounceTimer?.invalidate()
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-            self.presenter?.handleQuery(self.mapDataProvider.getLocation(for: address))
+            self.suggestion = self.mapDataProvider.getLocation(for: address)
         }
     }
     

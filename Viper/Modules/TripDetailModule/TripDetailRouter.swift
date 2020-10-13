@@ -45,7 +45,6 @@ class TripDetailRouter: TripDetailRouterProtocol {
     func makeWaypointView(for waypoint: Waypoint, isPresented: Binding<Bool>) -> some View {
         let interactor = WaypointInteractor(waypoint: waypoint, mapDataProvider: mapProvider)
         let presenter = WaypointPresenter(interactor: interactor)
-        interactor.presenter = presenter
         return NavigationLinkWrapper(destination: WaypointView(interactor: interactor, presenter: presenter), isPresented: isPresented)
     }
 }

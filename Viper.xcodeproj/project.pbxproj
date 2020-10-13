@@ -47,7 +47,6 @@
 		0A20EFAC240EA73A00A0CA27 /* WaypointInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaypointInteractor.swift; sourceTree = "<group>"; };
 		0A46782823D7AE980073803D /* Waypoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Waypoint.swift; sourceTree = "<group>"; };
 		0A624E0023E7A44D00212508 /* ImageDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataProvider.swift; sourceTree = "<group>"; };
-		0A78DB8A23E78CF300934DD4 /* notes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = notes.md; sourceTree = "<group>"; };
 		0A78DB8D23E799E400934DD4 /* SplitImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitImage.swift; sourceTree = "<group>"; };
 		0A80218B23DF478A00166C86 /* MapDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDataProvider.swift; sourceTree = "<group>"; };
 		0A83577523D697A300D83533 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -131,7 +130,6 @@
 		18D775B422AD944300AE281E = {
 			isa = PBXGroup;
 			children = (
-				0A78DB8A23E78CF300934DD4 /* notes.md */,
 				18D775BF22AD944300AE281E /* Viper */,
 				18D775BE22AD944300AE281E /* Products */,
 			);
